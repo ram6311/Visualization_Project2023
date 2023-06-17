@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Read the dataset
 df = pd.read_csv('heart_2020_cleaned.csv')
-
+print(df.head())
 def main():
     # Create the Streamlit app
     st.title("Interactive Plot")
