@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 
 # Read the dataset
 df = pd.read_csv('heart_2020_cleaned.csv')
@@ -27,33 +27,19 @@ def main():
         & (df["HeartDisease"] == selected_heart_disease)
     ]
 
-    # Plotting the data
-    fig, ax = plt.subplots(2, 2, figsize=(12, 8))
+    # Plotting the data using Plotly Express
+    fig = px.bar(filtered_data, x="Race", y="Variable1", title="Plot 1")
+    st.plotly_chart(fig)
 
-    # Customize and plot the subplots
-    # Note: You will need to adjust the specific plot type and customization based on your data and visualization requirements
+    fig = px.scatter(filtered_data, x="Race", y="Variable2", title="Plot 2")
+    st.plotly_chart(fig)
 
-    # Subplot 1
-    ax[0, 0].bar(filtered_data["Race"], filtered_data["Variable1"])
-    ax[0, 0].set_title("Plot 1")
+    fig = px.line(filtered_data, x="Race", y="Variable3", title="Plot 3")
+    st.plotly_chart(fig)
 
-    # Subplot 2
-    ax[0, 1].scatter(filtered_data["Race"], filtered_data["Variable2"])
-    ax[0, 1].set_title("Plot 2")
-
-    # Subplot 3
-    ax[1, 0].plot(filtered_data["Race"], filtered_data["Variable3"])
-    ax[1, 0].set_title("Plot 3")
-
-    # Subplot 4
-    ax[1, 1].pie(filtered_data["Variable4"], labels=filtered_data["Race"])
-    ax[1, 1].set_title("Plot 4")
-
-    # Display the plot in Streamlit
-    st.pyplot(fig)
+    fig = px.pie(filtered_data, names="Race", values="Variable4", title="Plot 4")
+    st.plotly_chart(fig)
 
 
 if __name__ == "__main__":
     main()
-
-
