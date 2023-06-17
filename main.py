@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+# import plotly.express as px
 
 # Read the dataset
 df = pd.read_csv('heart_2020_cleaned.csv')
