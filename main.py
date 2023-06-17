@@ -1,43 +1,59 @@
-# import streamlit as st
-# import pandas as pd
-
-# df = pd.read_csv('heart_data.csv')
-# first_row = df.head(1)
-
-# def main():
-#     st.write("Hello, World!")
-#     st.write(first_row)
-    
-
-# if __name__ == "__main__":
-#     main()
-!pip install matplotlib
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Read the dataset
-df = pd.read_csv('heart_data.csv')
+df = pd.read_csv('heart_2020_cleaned.csv')
 
 def main():
-    st.title("Prevalence of Risk Factors for Heart Disease")
-    
-    # Sidebar filters
-    selected_demo = st.sidebar.selectbox("Select Demographic Group", ["Age", "Sex", "Race"])
-    
-    # Filter and group the data based on the selected demographic group
-    grouped_data = df.groupby(selected_demo)["target"].mean().reset_index()
-    
-    # Plotting
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x=selected_demo, y="target", data=grouped_data)
-    plt.xlabel(selected_demo)
-    plt.ylabel("Prevalence of Heart Disease")
-    plt.title(f"Comparison of Heart Disease Prevalence by {selected_demo}")
-    st.pyplot()
-    
+    # Define unique values for AgeCategory, Race, Sex, and HeartDisease
+    age_categories = df["AgeCategory"].unique()
+    races = df["Race"].unique()
+    sexes = df["Sex"].unique()
+    heart_diseases = df["HeartDisease"].unique()
+
+    # Create the Streamlit app
+    st.title("Interactive Plot")
+    selected_age_category = st.selectbox("Select Age Category:", age_categories)
+    selected_race = st.selectbox("Select Race:", races)
+    selected_sex = st.selectbox("Select Sex:", sexes)
+    selected_heart_disease = st.selectbox("Select Heart Disease:", heart_diseases)
+
+    # Filter the data based on user selections
+    filtered_data = df[
+        (df["AgeCategory"] == selected_age_category)
+        & (df["Race"] == selected_race)
+        & (df["Sex"] == selected_sex)
+        & (df["HeartDisease"] == selected_heart_disease)
+    ]
+
+    # Plotting the data
+    fig, ax = plt.subplots(2, 2, figsize=(12, 8))
+
+    # Customize and plot the subplots
+    # Note: You will need to adjust the specific plot type and customization based on your data and visualization requirements
+
+    # Subplot 1
+    ax[0, 0].bar(filtered_data["Race"], filtered_data["Variable1"])
+    ax[0, 0].set_title("Plot 1")
+
+    # Subplot 2
+    ax[0, 1].scatter(filtered_data["Race"], filtered_data["Variable2"])
+    ax[0, 1].set_title("Plot 2")
+
+    # Subplot 3
+    ax[1, 0].plot(filtered_data["Race"], filtered_data["Variable3"])
+    ax[1, 0].set_title("Plot 3")
+
+    # Subplot 4
+    ax[1, 1].pie(filtered_data["Variable4"], labels=filtered_data["Race"])
+    ax[1, 1].set_title("Plot 4")
+
+    # Display the plot in Streamlit
+    st.pyplot(fig)
+
+
 if __name__ == "__main__":
     main()
+
 
