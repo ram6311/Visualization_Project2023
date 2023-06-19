@@ -15,7 +15,9 @@ def main():
     # Plotting the data using Plotly Express
     fig = px.histogram(df, x=x_variable)
     st.plotly_chart(fig)
-    st.write(df.head())
+    # st.write(df.head())
 
 if __name__ == "__main__":
     main()
+# C:\Users\ram63\Desktop\סמסטר ח\וויזואליזציה של מידע\PROJECT\GitHub\Visualization_Project2023
+#streamlit run main.py
