@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 # Read the dataset
 df = pd.read_csv('heart_2020_cleaned.csv')
@@ -18,7 +19,6 @@ def main():
     # st.write(df.head())
         
     # Group by 'Category' and calculate the sum of 'Value'
-   import plotly.graph_objects as go
     
     fig = go.Figure()
     
