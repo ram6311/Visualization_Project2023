@@ -96,8 +96,19 @@ def main():
     )
     st.plotly_chart(fig)
 
-
+    dfsleep = df_copy1.groupby(['HeartDisease', 'SleepTime']).size().reset_index(name='Count')
+    print(dfsleep)
     
+    fig = px.bar(dfsleep, x='Count', y='SleepTime', color='HeartDisease', barmode='stack', orientation='h')
+    
+    fig.update_layout(
+        title='Sleep Time Distribution by Heart Disease Grouping',
+        xaxis=dict(title='Number of People'),
+        yaxis=dict(title='Sleep Time'),
+    )
+    
+    st.plotly_chart(fig)
+        
 
 if __name__ == "__main__":
     main()
