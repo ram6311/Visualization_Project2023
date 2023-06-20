@@ -59,7 +59,6 @@ def main():
     
     st.plotly_chart(fig)
 
-    import plotly.express as px
 
     # Select the relevant columns from the DataFrame
     diseases = ['SkinCancer', 'KidneyDisease', 'Asthma']
