@@ -19,9 +19,10 @@ def main():
     # st.write(df.head())
         
     # Group by 'Category' and calculate the sum of 'Value'
-    
+    df_copy = df[['AgeCategory',  'Sex', 'Race','HeartDisease']]
+    grouped_df = df_copy.groupby(['AgeCategory',  'Sex', 'Race','HeartDisease' ]).size().reset_index(name='Count')
     fig = go.Figure()
-    
+        
     fig.update_layout(
         template="simple_white",
         xaxis=dict(title_text="AgeCategory"),
