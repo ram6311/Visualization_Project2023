@@ -59,6 +59,44 @@ def main():
     
     st.plotly_chart(fig)
 
+    import plotly.express as px
+
+    # Select the relevant columns from the DataFrame
+    diseases = ['SkinCancer', 'KidneyDisease', 'Asthma']
+    
+    df_copy1 = df.copy()
+    df_copy1[['SkinCancer', 'KidneyDisease', 'Asthma']] = df_copy1[['SkinCancer', 'KidneyDisease', 'Asthma']].replace('Yes', 1)
+    df_copy1[['SkinCancer', 'KidneyDisease', 'Asthma']] = df_copy1[['SkinCancer', 'KidneyDisease', 'Asthma']].replace('No', 0)
+    
+    # Create a new column for the combination of diseases
+    df_copy1['DiseaseCombination'] = df_copy1[diseases].apply(lambda x: '_'.join(x.astype(str)), axis=1)
+    
+    # Define the custom labels for the disease combinations
+    combination_labels = {
+        '0_0_0': 'No Disease',
+        '1_0_0': 'Skin Cancer',
+        '0_1_0': 'Kidney Disease',
+        '0_0_1': 'Asthma',
+        '1_1_0': 'Skin Cancer, Kidney Disease',
+        '1_0_1': 'Skin Cancer, Asthma',
+        '0_1_1': 'Kidney Disease, Asthma',
+        '1_1_1': 'Skin Cancer, Kidney Disease, Asthma'
+    }
+    
+    dfHD = df_copy1.groupby(['HeartDisease', 'DiseaseCombination']).size().reset_index(name='Count')
+    
+    # Map the combination codes to the corresponding labels
+    dfHD['CombinationLabel'] = dfHD['DiseaseCombination'].map(combination_labels)
+    
+    fig = px.bar(dfHD, x='Count', y='CombinationLabel', color='HeartDisease', barmode='stack', orientation='h')
+    
+    fig.update_layout(
+        title='Combinations of Diseases by Heart Disease Grouping',
+        xaxis=dict(title='Number of People'),
+        yaxis=dict(title='Disease Combination'),
+    )
+    st.plotly_chart(fig)
+
 
     
 
