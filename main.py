@@ -16,7 +16,12 @@ def main():
     fig = px.histogram(df, x=x_variable)
     st.plotly_chart(fig)
     # st.write(df.head())
-    st.write("fF")
+        
+    # Group by 'Category' and calculate the sum of 'Value'
+    grouped_df = df.groupby(['AgeCategory',  'Sex', 'Race','HeartDisease' ]).sum()
+    
+    print(grouped_df)
+    
 
 if __name__ == "__main__":
     main()
