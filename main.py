@@ -16,6 +16,7 @@ def main():
     fig = px.histogram(df, x=x_variable)
     st.plotly_chart(fig)
     # st.write(df.head())
+    st.write("fF")
 
 if __name__ == "__main__":
     main()
