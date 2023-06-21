@@ -6,16 +6,28 @@ import plotly.graph_objects as go
 # Read the dataset
 df = pd.read_csv('heart_2020_cleaned.csv')
 
-def main():
-    # Create the Streamlit app
-    st.title("Interactive Plot")
-    
-    # Select the variable for x-axis
-    x_variable = st.selectbox("Select X variable:", df.columns)
+# Convert 'AgeCategory' column to numeric values
+df['AgeCategory'] = pd.to_numeric(df['AgeCategory'], errors='coerce')
 
-    # Plotting the data using Plotly Express
-    fig = px.histogram(df, x=x_variable)
+def main():
+    st.title("Heart Disease Analysis")
+    st.sidebar.title("Unique AgeCategory Categories")
+
+    # Add a slider bar for age selection
+    age_range = st.sidebar.slider("Select Age Range", 18, 80, (18, 80), step=1)
+
+    # Filter the dataframe based on selected age range
+    filtered_df = df[(df['AgeCategory'] >= age_range[0]) & (df['AgeCategory'] <= age_range[1])]
+
+    # Plot the data
+    fig = px.histogram(filtered_df, x='AgeCategory', y='HeartDisease', nbins=20, color='HeartDisease')
+    fig.update_layout(
+        title="Heart Disease Distribution by Age",
+        xaxis_title="AgeCategory",
+        yaxis_title="Amount of Heart Disease",
+    )
     st.plotly_chart(fig)
+<<<<<<< Updated upstream
     # st.write(df.head())
         
     # Group by 'Category' and calculate the sum of 'Value'
@@ -114,3 +126,12 @@ if __name__ == "__main__":
     main()
 # C:\Users\ram63\Desktop\סמסטר ח\וויזואליזציה של מידע\PROJECT\GitHub\Visualization_Project2023
 #streamlit run main.py
+=======
+
+
+if __name__ == "__main__":
+    main()
+
+#cd C:\Users\ram63\Desktop\סמסטר ח\וויזואליזציה של מידע\PROJECT\GitHub\Visualization_Project2023
+#streamlit run main.py
+>>>>>>> Stashed changes
