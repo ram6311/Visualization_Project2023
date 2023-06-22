@@ -160,7 +160,7 @@ def main():
     if mode_Heart == "Yes" and selected_sex == "All Genders":
        st.plotly_chart(fig)
     else:
-       fig.update_layout(title_text="Percentage of people with heart disease for each Gender")
+       st.write(title_text="Percentage of people with heart disease for each Gender")
 
        st.write("Please select 'Yes' on Switch Heart Disease and 'All Genders' on Selected Sex to display the plot.")
 
@@ -216,7 +216,14 @@ def main():
                  color_discrete_sequence=colors2)
     fig.update_layout(
         title="Percentage of Individuals Reporting Physical Activities in The Past 30 Days - Individuals with or Without Heart Disease")
-    st.plotly_chart(fig)
+    if mode_Heart != "Heart Disease All":
+       st.plotly_chart(fig)
+    else:
+       st.write(title_text="Percentage of Individuals Reporting Physical Activities in The Past 30 Days - Individuals with or Without Heart Disease")
+
+       st.write("Please select 'Yes' or 'No' on Switch Heart Disease to display the plot.")
+
+    #st.plotly_chart(fig)
 
     ##### Graph 7 #####
 
@@ -247,9 +254,9 @@ def main():
             st.plotly_chart(fig)
         else:
             if according_to is None:
-              fig.update_layout(title=f'{col}')
+              st.write(title=f'{col}')
             else:
-              fig.update_layout(title=f'{col} according to {according_to}')
+              st.write(title=f'{col} according to {according_to}')
             st.write("Please select 'Heart Disease All' on Switch Heart Disease to display the plot.")
 
            
