@@ -244,21 +244,21 @@ def main():
     show_relation(obj_cols[3], 'HeartDisease', type_='count')
 
 
-   x1 = filtered_df[filtered_df['HeartDisease']=='Yes']['BMI']
-   x2 = filtered_df[filtered_df['HeartDisease']=='No']['BMI']
+    x1 = filtered_df[filtered_df['HeartDisease']=='Yes']['BMI']
+    x2 = filtered_df[filtered_df['HeartDisease']=='No']['BMI']
 
-   hist_data = [x1, x2]
+    hist_data = [x1, x2]
 
-   group_labels = ['HeartDisease', 'NoHeartDisease']
-   colors = ['#1337f5', '#E80000']
+    group_labels = ['HeartDisease', 'NoHeartDisease']
+    colors = ['#1337f5', '#E80000']
 
-   fig = ff.create_distplot(hist_data, group_labels, show_hist=False, colors=colors)
+    fig = ff.create_distplot(hist_data, group_labels, show_hist=False, colors=colors)
 
-   fig.update_xaxes(title_text='BMI')
-   fig.update_yaxes(title_text='Density')
+    fig.update_xaxes(title_text='BMI')
+    fig.update_yaxes(title_text='Density')
 
-   fig.update_layout(title_text='BMI distribution')
-   st.plotly_chart(fig)
+    fig.update_layout(title_text='BMI distribution')
+    st.plotly_chart(fig)
 
 if __name__ == "__main__":
     main()
