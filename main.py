@@ -157,8 +157,15 @@ def main():
     fig.update_traces(textposition='inside', textinfo='percent+label', pull=[0.05, 0])
     fig.update_layout(legend_title="Labels", font=dict(size=20))
     fig.update_layout(title_text="Percentage of people with heart disease for each Gender")
+    if mode_Heart == "Yes" and selected_sex == "All Genders":
+       st.plotly_chart(fig)
+    else:
+       fig.update_layout(title_text="Percentage of people with heart disease for each Gender")
 
-    st.plotly_chart(fig)
+       st.write("Please select 'Yes' on Switch Heart Disease and 'All Genders' on Selected Sex to display the plot.")
+
+
+    #st.plotly_chart(fig)
                             ##### Graph 4 #####
     # List of diseases
     diseases = ['Stroke', 'Diabetic', 'Asthma', 'KidneyDisease', 'SkinCancer']
@@ -239,7 +246,11 @@ def main():
         if mode_Heart == "Heart Disease All":
             st.plotly_chart(fig)
         else:
-            st.write("Please select 'Heart Disease All' mode to display the plot.")
+            if according_to is None:
+              fig.update_layout(title=f'{col}')
+            else:
+              fig.update_layout(title=f'{col} according to {according_to}')
+            st.write("Please select 'Heart Disease All' on Switch Heart Disease to display the plot.")
 
            
         #st.plotly_chart(fig)
