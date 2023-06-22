@@ -236,10 +236,10 @@ def main():
         else:
             fig.update_layout(title=f'{col} according to {according_to}')
 
-        if mode_Heart != "Heart Disease All":
+        if mode_Heart == "Heart Disease All":
             st.plotly_chart(fig)
         else:
-            st.write("Please select a specific mode to display the plot.")
+            st.write("Please select 'Heart Disease All' mode to display the plot.")
 
            
         #st.plotly_chart(fig)
