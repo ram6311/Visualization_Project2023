@@ -235,7 +235,8 @@ def main():
             fig.update_layout(title=f'{col}')
         else:
             fig.update_layout(title=f'{col} according to {according_to}')
-
+               
+        fig.update_layout(clickmode='none')
         st.plotly_chart(fig)
 
     # Call the function
