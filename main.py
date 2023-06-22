@@ -235,9 +235,14 @@ def main():
             fig.update_layout(title=f'{col}')
         else:
             fig.update_layout(title=f'{col} according to {according_to}')
-               
-        fig.update_layout(clickmode='none')
-        st.plotly_chart(fig)
+
+        if mode_Heart != "Heart Disease All":
+            st.plotly_chart(fig)
+        else:
+            st.write("Please select a specific mode to display the plot.")
+
+           
+        #st.plotly_chart(fig)
 
     # Call the function
     show_relation(obj_cols[0], 'HeartDisease', type_='count')
