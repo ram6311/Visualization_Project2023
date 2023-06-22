@@ -244,8 +244,8 @@ def main():
     show_relation(obj_cols[3], 'HeartDisease', type_='count')
 
 
-   x1 = filtered_df[filtered_df["HeartDisease"]=='Yes']["BMI"]
-   x2 = filtered_df[filtered_df["HeartDisease"]=='No']["BMI"]
+   x1 = filtered_df[filtered_df['HeartDisease']=='Yes']['BMI']
+   x2 = filtered_df[filtered_df['HeartDisease']=='No']['BMI']
 
    hist_data = [x1, x2]
 
