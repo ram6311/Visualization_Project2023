@@ -53,7 +53,7 @@ def main():
             marker_color_sex = 'pink'
 
     # Group by Age and count number of people with heart disease
-    age_counts = filtered_df[filtered_df['HeartDisease'] == 'Yes'].groupby('Age').size().reset_index(name='Count')
+    age_counts = filtered_df.groupby('Age').size().reset_index(name='Count')
 
     # Create subplot grid with 1 row and 2 columns
     fig = make_subplots(rows=1, cols=2, subplot_titles=["Bar Chart", "Line Chart"])
