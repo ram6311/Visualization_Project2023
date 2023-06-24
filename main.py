@@ -60,15 +60,17 @@ def main():
 
     # Bar plot for number of people with heart disease
     fig.add_trace(go.Bar(x=age_counts['Age'], y=age_counts['Count'], marker_color=marker_color_sex), row=1, col=1)
-
+    mode_Heart2 = mode_Heart
+    if mode_Heart2 == "Heart Disease All":
+        mode_Heart2 = "Yes"
     # Line plot for heart disease percentage
     heart_disease_percentage = filtered_df.groupby('Age')['HeartDisease'].apply(
-        lambda x: (x == 'Yes').mean()).reset_index(name='Percentage')
+        lambda x: (x == mode_Heart2).mean()).reset_index(name='Percentage')
     fig.add_trace(
         go.Scatter(x=heart_disease_percentage['Age'], y=heart_disease_percentage['Percentage'],
                    marker_color=marker_color_sex), row=1,
         col=2)
-
+    
     # Update layout and axis labels
     fig.update_layout(title=f'Heart Disease Analysis set to {mode_Heart}', height=400, showlegend=False)
     fig.update_xaxes(title_text="Age", row=1, col=1)
