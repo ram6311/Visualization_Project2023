@@ -154,7 +154,7 @@ def main():
 
     # Create a stacked bar plot using Plotly
     fig = go.Figure(data=[
-        go.Bar(name='Yes', x=counts.index, y=counts['Yes']),
+        go.Bar(name='Yes', x=counts.index, y=counts['Yes'], marker_color=marker_color_sex),
         go.Bar(name='No', x=counts.index, y=counts['No'])
     ])
 
