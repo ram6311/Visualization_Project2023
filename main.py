@@ -27,26 +27,8 @@ def main():
 
     # Update session state with selected ages
     st.session_state.selected_ages = selected_ages
-
-    # Calculate remaining age ranges
-    remaining_ages = [age for age in df['Age'].unique() if age not in selected_ages]
-
-    # Add a multiselect widget for remaining age ranges
-    rem_ages = st.multiselect('Remaining Age Ranges', df['Age'].unique(), default=remaining_ages)
-
-    # Update session state with remaining age ranges
-    st.session_state.rem_ages = rem_ages
-
     # Filter data
-
-    # Mode selection between selected and remaining age ranges
-    mode_age = st.sidebar.radio("Switch Selected Ages", ("Selected Ages", "Remaining Ages"))
-
-    # Filter data based on mode selection
-    if mode_age == "Selected Ages":
-        filtered_df = df[df['Age'].isin(selected_ages)]
-    else:
-        filtered_df = df[df['Age'].isin(rem_ages)]
+    filtered_df = df[df['Age'].isin(selected_ages)]
 
     # Mode selection between Heart Disease with Yes or No
     mode_Heart = st.sidebar.radio("Switch Heart Disease", ["Heart Disease All", "No","Yes" ], index=0)
@@ -88,7 +70,7 @@ def main():
         col=2)
 
     # Update layout and axis labels
-    fig.update_layout(title=f'Heart Disease Analysis ({mode_age})', height=400, showlegend=False)
+    fig.update_layout(title=f'Heart Disease Analysis set to {mode_Heart}', height=400, showlegend=False)
     fig.update_xaxes(title_text="Age", row=1, col=1)
     fig.update_xaxes(title_text="Age", row=1, col=2)
     fig.update_yaxes(title_text="Number of People", row=1, col=1)
