@@ -10,10 +10,6 @@ import plotly.figure_factory as ff
 
 # Read the dataset
 df = pd.read_csv('heart_2020_cleaned.csv')
-columns = ['HeartDisease', 'BMI', 'Smoking', 'AlcoholDrinking', 'Stroke',
-       'PhysicalHealth', 'MentalHealth', 'DiffWalking', 'Sex', 'Age', 'Race',
-       'Diabetic', 'PhysicalActivity', 'GenHealth', 'SleepTime', 'Asthma',
-       'KidneyDisease', 'SkinCancer']
 #change the columns from AgeCategory to Age
 df['Age'] = df['AgeCategory']
 df = df.drop(columns=['AgeCategory'])
@@ -23,7 +19,7 @@ def main():
     st.title('Heart Disease Dashboard')
 
     if 'selected_ages' not in st.session_state:
-        sorted_list= sorted(df['Age'].unique().tolist())
+        sorted_list = sorted(df['Age'].unique().tolist())
         st.session_state.selected_ages = sorted_list
 
     # Add a multiselect widget for selected ages
@@ -53,15 +49,14 @@ def main():
         filtered_df = df[df['Age'].isin(rem_ages)]
 
     # Mode selection between Heart Disease with Yes or No
-    mode_Heart = st.sidebar.radio("Switch Heart Disease", ["Yes", "No", "Heart Disease All"], index=0)
+    mode_Heart = st.sidebar.radio("Switch Heart Disease", ["Heart Disease All", "No","Yes" ], index=0)
     if mode_Heart == "Heart Disease All":
         filtered_df = filtered_df
     else:
         filtered_df = df[df['HeartDisease'] == mode_Heart]
 
-
     # Add a radio button group for selecting sex
-    sex_options = ['All Genders','Male', 'Female' ]
+    sex_options = ['All Genders', 'Male', 'Female']
     selected_sex = st.sidebar.radio('Selected Sex', sex_options, index=0)
     marker_color_sex = 'red'
     # Update filtered_df with selected sex
@@ -88,7 +83,8 @@ def main():
     heart_disease_percentage = filtered_df.groupby('Age')['HeartDisease'].apply(
         lambda x: (x == 'Yes').mean()).reset_index(name='Percentage')
     fig.add_trace(
-        go.Scatter(x=heart_disease_percentage['Age'], y=heart_disease_percentage['Percentage'], marker_color=marker_color_sex), row=1,
+        go.Scatter(x=heart_disease_percentage['Age'], y=heart_disease_percentage['Percentage'],
+                   marker_color=marker_color_sex), row=1,
         col=2)
 
     # Update layout and axis labels
@@ -100,7 +96,7 @@ def main():
 
     # # Display subplot grid
     st.plotly_chart(fig)
-                                                        ##### Graph 2 #####
+    ##### Graph 2 #####
     # Group by 'Category' and calculate the sum of 'Value'
     df_copy = filtered_df[['Age', 'Sex', 'Race', 'HeartDisease']]
     grouped_df = df_copy.groupby(['Age', 'Sex', 'Race', 'HeartDisease']).size().reset_index(name='Count')
@@ -145,7 +141,7 @@ def main():
 
     st.plotly_chart(fig)
 
-                                                        ##### Graph 3 #####
+    ##### Graph 3 #####
 
     df_plot = filtered_df[filtered_df['HeartDisease'] == 'Yes']
     fig = px.pie(
@@ -158,15 +154,14 @@ def main():
     fig.update_layout(legend_title="Labels", font=dict(size=20))
     fig.update_layout(title_text="Percentage of people with heart disease for each Gender")
     if mode_Heart == "Yes" and selected_sex == "All Genders":
-       st.plotly_chart(fig)
+        st.plotly_chart(fig)
     else:
-       st.write(title_text="Percentage of people with heart disease for each Gender")
+        st.write(title_text="Percentage of people with heart disease for each Gender")
 
-       st.write("Please select 'Yes' on Switch Heart Disease and 'All Genders' on Selected Sex to display the plot.")
+        st.write("Please select 'Yes' on Switch Heart Disease and 'All Genders' on Selected Sex to display the plot.")
 
-
-    #st.plotly_chart(fig)
-                            ##### Graph 4 #####
+    # st.plotly_chart(fig)
+    ##### Graph 4 #####
     # List of diseases
     diseases = ['Stroke', 'Diabetic', 'Asthma', 'KidneyDisease', 'SkinCancer']
 
@@ -190,10 +185,9 @@ def main():
     # Display the plot using Streamlit
     st.plotly_chart(fig, use_container_width=True)
 
-                            ##### Graph 5 #####
+    ##### Graph 5 #####
     # Group by HeartDisease and SleepTime and calculate the count
     relative = filtered_df.groupby('HeartDisease').SleepTime.value_counts(normalize=True).reset_index(name='Percentage')
-
 
     # Define the colors for the bar chart
     colors = ['#1337f5', '#E80000']
@@ -207,7 +201,7 @@ def main():
 
     # Display the plot using Streamlit
     st.plotly_chart(fig)
-        ##### Graph 6 #####
+    ##### Graph 6 #####
     colors2 = ['#1337f5', '#E80000']
 
     x = filtered_df.groupby('HeartDisease').PhysicalActivity.value_counts().reset_index(name='Count').Count
@@ -217,13 +211,14 @@ def main():
     fig.update_layout(
         title="Percentage of Individuals Reporting Physical Activities in The Past 30 Days - Individuals with or Without Heart Disease")
     if mode_Heart != "Heart Disease All":
-       st.plotly_chart(fig)
+        st.plotly_chart(fig)
     else:
-       st.write(title_text="Percentage of Individuals Reporting Physical Activities in The Past 30 Days - Individuals with or Without Heart Disease")
+        st.write(
+            title_text="Percentage of Individuals Reporting Physical Activities in The Past 30 Days - Individuals with or Without Heart Disease")
 
-       st.write("Please select 'Yes' or 'No' on Switch Heart Disease to display the plot.")
+        st.write("Please select 'Yes' or 'No' on Switch Heart Disease to display the plot.")
 
-    #st.plotly_chart(fig)
+    # st.plotly_chart(fig)
 
     ##### Graph 7 #####
 
@@ -237,9 +232,10 @@ def main():
             fig = px.histogram(filtered_df, x=col, color=according_to, marginal='kde', color_discrete_sequence=colors2)
         elif type_ == 'count':
             if according_to is not None:
-                perc = filtered_df.groupby(col)[according_to].value_counts(normalize=True).reset_index(name='Percentage')
+                perc = filtered_df.groupby(col)[according_to].value_counts(normalize=True).reset_index(
+                    name='Percentage')
                 fig = px.bar(perc, x=col, y='Percentage', color=according_to, barmode='group',
-                             color_discrete_map={0: colors2[0], 1: colors2[1]},
+                             color_discrete_map={'Yes': '#E80000', 'No': '#1337f5'},
                              category_orders={col: filtered_df[col].value_counts().index})
             else:
                 fig = px.histogram(filtered_df, x=col, color=according_to, color_discrete_sequence=colors1,
@@ -254,38 +250,39 @@ def main():
             st.plotly_chart(fig)
         else:
             if according_to is None:
-              st.write(title=f'{col}')
+                st.write(title=f'{col}')
             else:
-              st.write(title=f'{col} according to {according_to}')
+                st.write(title=f'{col} according to {according_to}')
             st.write("Please select 'Heart Disease All' on Switch Heart Disease to display the plot.")
-
-           
-        #st.plotly_chart(fig)
 
     # Call the function
     show_relation(obj_cols[0], 'HeartDisease', type_='count')
     show_relation(obj_cols[1], 'HeartDisease', type_='count')
     show_relation(obj_cols[3], 'HeartDisease', type_='count')
 
+    ##### Graph 8 #####
 
-    # x1 = filtered_df[filtered_df['HeartDisease']=='Yes']['BMI']
-    # x2 = filtered_df[filtered_df['HeartDisease']=='No']['BMI']
 
-    # hist_data = [x1, x2]
+    # Display the plot using Streamlit
+    try:
+        # Create a new column called BMI Category
+        x1 = filtered_df[filtered_df['HeartDisease'] == 'Yes']['BMI']
+        x2 = filtered_df[filtered_df['HeartDisease'] == 'No']['BMI']
 
-    # group_labels = ['HeartDisease', 'NoHeartDisease']
-    # colors = ['#1337f5', '#E80000']
+        hist_data = [x1, x2]
+        group_labels = ['HeartDisease', 'NoHeartDisease']
+        colors = ['#1337f5', '#E80000']
 
-    # fig = ff.create_distplot(hist_data, group_labels, show_hist=False, colors=colors)
+        # Create distplot with curve_type set to 'normal'
+        fig = ff.create_distplot(hist_data, group_labels, show_hist=False, colors=colors)
 
-    # fig.update_xaxes(title_text='BMI')
-    # fig.update_yaxes(title_text='Density')
-
-    # fig.update_layout(title_text='BMI distribution')
-    # st.plotly_chart(fig)
+        # Update layout and axis labels
+        fig.update_layout(title='BMI Distribution',
+                          xaxis_title='BMI',
+                          yaxis_title='Density')
+        st.plotly_chart(fig, use_container_width=True)
+    except:
+        st.write("Please select 'Heart Disease All' on Switch Heart Disease to display the plot.")
 
 if __name__ == "__main__":
     main()
-
-#cd C:\Users\ram63\Desktop\סמסטר ח\וויזואליזציה של מידע\PROJECT\GitHub\Visualization_Project2023
-#streamlit run main.py
