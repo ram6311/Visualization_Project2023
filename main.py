@@ -81,7 +81,8 @@ def main():
     # # Display subplot grid
     st.plotly_chart(fig)
 #############
-  disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
+   # Calculate the percentage of diseases and convert to a dictionary
+    disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
 
     # Create a dataframe for the waffle chart
     waffle_df = pd.DataFrame({
