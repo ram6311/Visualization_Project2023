@@ -81,8 +81,6 @@ def main():
     # # Display subplot grid
     st.plotly_chart(fig)
 #############
-  df = pd.read_csv('your_dataset.csv')
-
     # Calculate the percentage of diseases and convert to a dictionary
     disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
 
