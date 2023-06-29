@@ -81,10 +81,12 @@ def main():
     # # Display subplot grid
     st.plotly_chart(fig)
 #############
+  
+    # Calculate the percentage of diseases and convert to a dictionary
     disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
 
     # Create the waffle chart using plotly.figure_factory
-    values = [round(v / sum(disease_size.values()) * 100, 2) for v in disease_size.values()]
+    values = [round(v / sum(disease_size.values()) * 100) for v in disease_size.values()]
     labels = [f"{k} ({v}%)" for k, v in disease_size.items()]
 
     fig = ff.create_waffle(
@@ -92,7 +94,7 @@ def main():
         labels=labels,
         colors=['#FF6F61', '#8AB17D'],  # Colors for heart disease and no heart disease
         icons='heart',
-        icon_size=30,
+        icon_size=25,
         title={'text': 'Heart Disease Per 100 People', 'font': {'size': 20}}
     )
 
