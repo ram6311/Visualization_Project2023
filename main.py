@@ -81,8 +81,7 @@ def main():
     # # Display subplot grid
     st.plotly_chart(fig)
 #############
-    # Calculate the percentage of diseases and convert to a dictionary
-    disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
+  disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
 
     # Create a dataframe for the waffle chart
     waffle_df = pd.DataFrame({
@@ -90,19 +89,29 @@ def main():
         'Percentage': list(disease_size.values())
     })
 
-    # Create the waffle chart using Plotly Express
-    fig = px.pie(waffle_df, values='Percentage', names='HeartDisease',
-                 title='Heart Disease Per 100 People',
-                 hover_data=['Percentage'])
+    # Create the waffle chart using Plotly
+    fig = go.Figure()
 
-    # Configure the waffle chart to use heart icons
-    fig.update_traces(marker=dict(symbol='heart', line=dict(color='#FFFFFF', width=2)),
-                      textinfo='none',
-                      hovertemplate='<b>%{label}</b><br>%{percent}: %{value:.2f}%')
+    for idx, row in waffle_df.iterrows():
+        fig.add_annotation(
+            x=0.5, y=0.5, text="❤️",
+            font=dict(size=50), showarrow=False,
+            textangle=0, xanchor='center', yanchor='middle'
+        )
+
+        fig.add_annotation(
+            x=0.5, y=0.5, text=f"{row['HeartDisease']} ({row['Percentage']:.2f}%)",
+            font=dict(size=14), showarrow=False,
+            textangle=0, xanchor='center', yanchor='top'
+        )
+
+    fig.update_layout(
+        title='Heart Disease Per 100 People',
+        width=600, height=400, showlegend=False
+    )
 
     # Display the waffle chart in Streamlit
     st.plotly_chart(fig)
-
 
 ##########
 
