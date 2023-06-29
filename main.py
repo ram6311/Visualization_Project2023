@@ -83,36 +83,17 @@ def main():
 #############
     disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
 
-    # Create the waffle chart using Plotly
-    fig = go.Figure()
+    # Create the waffle chart using plotly.figure_factory
+    values = [round(v / sum(disease_size.values()) * 100, 2) for v in disease_size.values()]
+    labels = [f"{k} ({v}%)" for k, v in disease_size.items()]
 
-    # Add heart icons for people with heart disease
-    n_heart_disease = int(disease_size.get('Heart Disease', 0))
-    for i in range(n_heart_disease):
-        fig.add_trace(go.Scatter(
-            x=[i % 10 + 0.5],
-            y=[i // 10 + 0.5],
-            mode='markers',
-            marker=dict(size=12, symbol='heart', color='red'),
-            showlegend=False
-        ))
-
-    # Add heart icons for people without heart disease
-    n_no_heart_disease = int(disease_size.get('No Heart Disease', 0))
-    for i in range(n_no_heart_disease):
-        fig.add_trace(go.Scatter(
-            x=[i % 10 + 0.5],
-            y=[i // 10 + 0.5],
-            mode='markers',
-            marker=dict(size=12, symbol='heart', color='green'),
-            showlegend=False
-        ))
-
-    # Configure the waffle chart layout
-    fig.update_layout(
-        title='Heart Disease Visualization',
-        width=600, height=600, showlegend=False,
-        xaxis=dict(visible=False), yaxis=dict(visible=False)
+    fig = ff.create_waffle(
+        values=values,
+        labels=labels,
+        colors=['#FF6F61', '#8AB17D'],  # Colors for heart disease and no heart disease
+        icons='heart',
+        icon_size=30,
+        title={'text': 'Heart Disease Per 100 People', 'font': {'size': 20}}
     )
 
     # Display the waffle chart in Streamlit
