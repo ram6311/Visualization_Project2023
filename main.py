@@ -81,7 +81,9 @@ def main():
     # # Display subplot grid
     st.plotly_chart(fig)
 #############
-   # Calculate the percentage of diseases and convert to a dictionary
+  df = pd.read_csv('your_dataset.csv')
+
+    # Calculate the percentage of diseases and convert to a dictionary
     disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
 
     # Create a dataframe for the waffle chart
@@ -93,11 +95,10 @@ def main():
     # Create the waffle chart using Plotly Express
     fig = px.pie(waffle_df, values='Percentage', names='HeartDisease',
                  title='Heart Disease Per 100 People',
-                 hover_data=['Percentage'],
-                 color_discrete_sequence=['red', 'blue'])
+                 hover_data=['Percentage'])
 
-    # Configure the waffle chart to use icons
-    fig.update_traces(marker=dict(line=dict(color='#FFFFFF', width=2)),
+    # Configure the waffle chart to use heart icons
+    fig.update_traces(marker=dict(symbol='heart', line=dict(color='#FFFFFF', width=2)),
                       textinfo='none',
                       hovertemplate='<b>%{label}</b><br>%{percent}: %{value:.2f}%')
 
