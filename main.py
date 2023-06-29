@@ -83,32 +83,34 @@ def main():
 #############
     disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
 
-    # Create a dataframe for the waffle chart
-    waffle_df = pd.DataFrame({
-        'HeartDisease': list(disease_size.keys()),
-        'Percentage': list(disease_size.values())
-    })
-
     # Create the waffle chart using Plotly
     fig = go.Figure()
 
-    for idx, row in waffle_df.iterrows():
-        n_hearts = int(row['Percentage'])
-        for i in range(n_hearts):
-            fig.add_annotation(
-                x=(i % 10 + 0.5) / 10, y=(i // 10 + 0.5) / 10, text="❤️",
-                font=dict(size=30), showarrow=False,
-                textangle=0, xanchor='center', yanchor='middle'
-            )
+    # Add heart icons for people with heart disease
+    n_heart_disease = int(disease_size.get('Heart Disease', 0))
+    for i in range(n_heart_disease):
+        fig.add_trace(go.Scatter(
+            x=[i % 10 + 0.5],
+            y=[i // 10 + 0.5],
+            mode='markers',
+            marker=dict(size=12, symbol='heart', color='red'),
+            showlegend=False
+        ))
 
-        fig.add_annotation(
-            x=0.5, y=1, text=f"{row['HeartDisease']} ({row['Percentage']:.2f}%)",
-            font=dict(size=14), showarrow=False,
-            textangle=0, xanchor='center', yanchor='bottom'
-        )
+    # Add heart icons for people without heart disease
+    n_no_heart_disease = int(disease_size.get('No Heart Disease', 0))
+    for i in range(n_no_heart_disease):
+        fig.add_trace(go.Scatter(
+            x=[i % 10 + 0.5],
+            y=[i // 10 + 0.5],
+            mode='markers',
+            marker=dict(size=12, symbol='heart', color='green'),
+            showlegend=False
+        ))
 
+    # Configure the waffle chart layout
     fig.update_layout(
-        title='Heart Disease Per 100 People',
+        title='Heart Disease Visualization',
         width=600, height=600, showlegend=False,
         xaxis=dict(visible=False), yaxis=dict(visible=False)
     )
