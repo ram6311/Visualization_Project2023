@@ -80,6 +80,44 @@ def main():
 
     # # Display subplot grid
     st.plotly_chart(fig)
+#############
+    disease_size = (df.groupby('HeartDisease').size() * 100 / len(df)).to_dict()
+
+    # Create the figure
+    fig = plt.figure(
+        FigureClass=Waffle,
+        rows=5,
+        figsize=(9, 3),
+        values=disease_size,
+        labels=[
+            f"{k} ({round(v / sum(disease_size.values()) * 100, 2)}%)"
+            for k, v in disease_size.items()
+        ],
+        colors=('red', 'blue'),  # Replace with your desired colors
+        icons=['heart', 'heart'],
+        legend={
+            'loc': 'lower center',
+            'bbox_to_anchor': (0.5, -0.5),
+            'ncol': len(disease_size),
+            'framealpha': 0,
+            'fontsize': 20
+        },
+        icon_size=20,
+        icon_legend=True,
+        title={
+            'label': 'Heart Disease Per 100 People',
+            'loc': 'center',
+            'fontdict': {'fontsize': 20}
+        }
+    )
+
+    # Display the waffle chart in Streamlit
+    st.pyplot(fig)
+
+
+##########
+
+    
     ##### Graph 2 #####
     # Group by 'Category' and calculate the sum of 'Value'
     df_copy = filtered_df[['Age', 'Sex', 'Race', 'HeartDisease']]
