@@ -15,14 +15,9 @@ df = pd.read_csv('heart_2020_cleaned.csv')
 df['Age'] = df['AgeCategory']
 df = df.drop(columns=['AgeCategory'])
 
-# # Precompute histogram data for BMI distribution
-# x1 = df[df['HeartDisease'] == 'Yes']['BMI']
-# x2 = df[df['HeartDisease'] == 'No']['BMI']
-# hist_data = [x1, x2]
-# group_labels = ['HeartDisease', 'NoHeartDisease']
-# colors = ['#1337f5', '#E80000']
+
 def main():
-#################
+    # Set page title
     # Title and Description
     _, col, _ = st.columns((0.6, 3, 0.1))
     with col:
@@ -41,7 +36,6 @@ def main():
             unsafe_allow_html=True
         )
 
-    ##########
     if 'selected_ages' not in st.session_state:
         sorted_list = sorted(df['Age'].unique().tolist())
         st.session_state.selected_ages = sorted_list
@@ -103,18 +97,6 @@ def main():
             height=400,
 
             showlegend=False
-            # annotations=[
-            #     dict(
-            #         text=f" Data set to : {mode_Heart} & {selected_sex}",
-            #         showarrow=False,
-            #         xref="paper",
-            #         yref="paper",
-            #         x=0,
-            #         y=1.1,
-            #         align="center",
-            #         font=dict(size=15)
-            #     )
-            # ]
         )
 
         fig.update_xaxes(title_text="Age", row=1, col=1)
@@ -201,8 +183,7 @@ def main():
             st.write(title_text="Percentage of people with heart disease for each Gender")
 
             st.write("Please select 'Yes' on Switch Heart Disease and 'All Genders' on Selected Sex to display the plot.")
-        ####
-        # st.plotly_chart(fig)
+
         ##### Graph 4 #####
         # List of diseases
         diseases = ['Stroke', 'Diabetic', 'Asthma', 'KidneyDisease', 'SkinCancer']
@@ -316,8 +297,6 @@ def main():
 
             st.write("Please select 'Yes' or 'No' on Switch Heart Disease to display the plot.")
 
-        # st.plotly_chart(fig)
-
         ##### Graph 7 #####
 
         colors6 = sns.color_palette(['#1337f5', '#E80000', '#0f1e41', '#fd523e', '#404e5c', '#c9bbaa'], 6)
@@ -386,31 +365,6 @@ def main():
 
        # Display the plot using Streamlit
         try:
-            # # Create distplot with precomputed histogram data
-            # fig = ff.create_distplot(hist_data, group_labels, show_hist=False, colors=colors)
-            #
-            # # Update layout and axis labels
-            # fig.update_layout()
-            # fig.update_layout(title='BMI Distribution', xaxis_title='BMI', yaxis_title='Density',
-            #
-            #     height=400,
-            #
-            #     showlegend=True,
-            #     annotations=[
-            #         dict(
-            #             text=f" Data set to : {mode_Heart} & {selected_sex}",
-            #             showarrow=False,
-            #             xref="paper",
-            #             yref="paper",
-            #             x=0,
-            #             y=1.1,
-            #             align="center",
-            #             font=dict(size=15)
-            #         )
-            #     ]
-            # )
-            # st.plotly_chart(fig, use_container_width=True)
-            ## Create a new column called BMI Category
             # Create a new column called BMI Category
             x1 = filtered_df[filtered_df['HeartDisease'] == 'Yes']['BMI']
             x2 = filtered_df[filtered_df['HeartDisease'] == 'No']['BMI']
