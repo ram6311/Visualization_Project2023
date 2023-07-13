@@ -364,49 +364,49 @@ def main():
     ##### Graph 8 #####
 
    # Display the plot using Streamlit
-    try:
-        # Create a new column called BMI Category
-        x1 = filtered_df[filtered_df['HeartDisease'] == 'Yes']['BMI']
-        x2 = filtered_df[filtered_df['HeartDisease'] == 'No']['BMI']
+    # try:
+    # Create a new column called BMI Category
+    x1 = filtered_df[filtered_df['HeartDisease'] == 'Yes']['BMI']
+    x2 = filtered_df[filtered_df['HeartDisease'] == 'No']['BMI']
 
-        # Downsample the data or aggregate it if needed
-        # Example of downsampling:
-        downsampled_x1 = np.random.choice(x1, size=1000, replace=False)
-        downsampled_x2 = np.random.choice(x2, size=1000, replace=False)
+    # Downsample the data or aggregate it if needed
+    # Example of downsampling:
+    downsampled_x1 = np.random.choice(x1, size=1000, replace=False)
+    downsampled_x2 = np.random.choice(x2, size=1000, replace=False)
 
-        # Compute the KDE for the downsampled data
-        kde_x1 = np.random.normal(loc=downsampled_x1.mean(), scale=downsampled_x1.std(), size=10000)
-        kde_x2 = np.random.normal(loc=downsampled_x2.mean(), scale=downsampled_x2.std(), size=10000)
+    # Compute the KDE for the downsampled data
+    kde_x1 = np.random.normal(loc=downsampled_x1.mean(), scale=downsampled_x1.std(), size=10000)
+    kde_x2 = np.random.normal(loc=downsampled_x2.mean(), scale=downsampled_x2.std(), size=10000)
 
-        hist_data = [kde_x1, kde_x2]
-        group_labels = ['HeartDisease', 'NoHeartDisease']
-        colors = ['#1337f5', '#E80000']
+    hist_data = [kde_x1, kde_x2]
+    group_labels = ['HeartDisease', 'NoHeartDisease']
+    colors = ['#1337f5', '#E80000']
 
-        # Create distplot with precomputed distributions
-        fig = ff.create_distplot(hist_data, group_labels, show_hist=False, colors=colors)
+    # Create distplot with precomputed distributions
+    fig = ff.create_distplot(hist_data, group_labels, show_hist=False, colors=colors)
 
-        # Update layout and axis labels
-        fig.update_layout(title='BMI Distribution', xaxis_title='BMI', yaxis_title='Density',
+    # Update layout and axis labels
+    fig.update_layout(title='BMI Distribution', xaxis_title='BMI', yaxis_title='Density',
 
-            height=400,
+        height=400,
 
-            showlegend=True,
-            annotations=[
-                dict(
-                    text=f" Data set to : {mode_Heart} & {selected_sex}",
-                    showarrow=False,
-                    xref="paper",
-                    yref="paper",
-                    x=0,
-                    y=1.1,
-                    align="center",
-                    font=dict(size=15)
-                )
-            ]
-        )
-        st.plotly_chart(fig, use_container_width=True)
-    except:
-        st.write("Please select 'Heart Disease All' on Switch Heart Disease to display the plot.")
+        showlegend=True,
+        annotations=[
+            dict(
+                text=f" Data set to : {mode_Heart} & {selected_sex}",
+                showarrow=False,
+                xref="paper",
+                yref="paper",
+                x=0,
+                y=1.1,
+                align="center",
+                font=dict(size=15)
+            )
+        ]
+    )
+    st.plotly_chart(fig, use_container_width=True)
+    # except:
+    #     st.write("Please select 'Heart Disease All' on Switch Heart Disease to display the plot.")
     # except:
     #     _, col, _ = st.columns((0.04, 3, 0.1))
     #     with col:
